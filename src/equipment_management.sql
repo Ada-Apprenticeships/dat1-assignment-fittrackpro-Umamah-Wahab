@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_keys = ON;
 -- Equipment Management Queries
 
 -- 1. Find equipment due for maintenance

@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_keys = ON;
 -- Staff Management Queries
 
 -- 1. List all staff members by role

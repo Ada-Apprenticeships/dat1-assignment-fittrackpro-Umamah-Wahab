@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_keys = ON;
 -- Personal Training Queries
 
 -- 1. List all personal training sessions for a specific trainer

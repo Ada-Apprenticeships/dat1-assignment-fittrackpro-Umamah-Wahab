@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_keys = ON;
 -- Membership Management Queries
 
 -- 1. List all active memberships
