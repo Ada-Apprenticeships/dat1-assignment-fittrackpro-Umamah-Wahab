@@ -1,5 +1,5 @@
 -- Initial SQLite setup
-.open fittrackpro.db
+.open fittrackpro.sqlite
 .mode column
 
 -- Enable foreign key support
@@ -12,19 +12,14 @@ PRAGMA foreign_keys = ON;
 INSERT INTO attendance (
     member_id,
     location_id,
-    check_in_time
+    check_in_time,
+    check_out_time
 ) VALUES (
-    1,  -- Replace with actual member_id
-    1,  -- Replace with actual location_id
-    DATETIME('now')
+    7, 
+    1,  
+    DATETIME('now', 'localtime'),
+    DATETIME('now', '+1.5 hours')
 );
-
--- Update check-out time when member leaves
-UPDATE attendance
-SET check_out_time = DATETIME('now')
-WHERE 
-    attendance_id = 1  -- Replace with actual attendance_id
-    AND check_out_time IS NULL;
 
 -- 2. Retrieve a member's attendance history
 -- TODO: Write a query to retrieve a member's attendance history
@@ -34,8 +29,7 @@ SELECT
     TIME(check_in_time) as check_in_time,
     TIME(check_out_time) as check_out_time
 FROM attendance
-WHERE member_id = 1  -- Replace with actual member_id
-ORDER BY check_in_time DESC;
+WHERE member_id = 5;
 
 
 -- 3. Find the busiest day of the week based on gym visits
@@ -54,7 +48,7 @@ SELECT
     COUNT(*) as visit_count
 FROM attendance
 GROUP BY day_of_week
-ORDER BY visit_count DESC;
+LIMIT 1;
 
 
 -- 4. Calculate the average daily attendance for each location
@@ -63,7 +57,7 @@ ORDER BY visit_count DESC;
 SELECT 
     l.name as location_name,
     ROUND(
-        COUNT(*) * 1.0 / 
+        COUNT(*) / 
         (SELECT COUNT(DISTINCT DATE(check_in_time)) 
          FROM attendance 
          WHERE location_id = l.location_id)

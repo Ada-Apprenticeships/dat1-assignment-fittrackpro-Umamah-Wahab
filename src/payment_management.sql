@@ -1,5 +1,5 @@
 -- Initial SQLite setup
-.open fittrackpro.db
+.open fittrackpro.sqlite
 .mode column
 
 -- Enable foreign key support
@@ -16,11 +16,11 @@ INSERT INTO payments (
     payment_method,
     payment_type
 ) VALUES (
-    1,  -- Replace with actual member_id
-    99.99,  -- Replace with actual amount
-    DATE('now'),  -- Current date, or specify another date
-    'credit_card',  -- Payment method (credit_card, cash, debit, etc.)
-    'membership_fee'  -- Type of payment (membership_fee, day_pass, etc.)
+    11, 
+    50.00,  
+    DATETIME('now', 'localtime'),  
+    'Credit Card',  
+    'Monthly membership fee' 
 );
 
 -- 2. Calculate total revenue from membership fees for each month of the last year
@@ -28,15 +28,13 @@ INSERT INTO payments (
 -- 2.2 Calculate total revenue from membership fees for each month of the last year
 -- Uses strftime for date formatting and aggregation by month
 SELECT 
-    strftime('%Y-%m', payment_date) as month,
-    ROUND(SUM(amount), 2) as total_revenue
+    strftime('%Y-%m', payment_date) AS month,
+    ROUND(SUM(amount), 2) AS total_revenue
 FROM payments
 WHERE 
-    payment_type = 'membership_fee'
-    AND payment_date >= date('now', '-1 year')
+    strftime('%Y', payment_date) = strftime('%Y', date('now', '-1 year'))  -- This dynamically uses the current year
 GROUP BY month
 ORDER BY month DESC;
-
 
 -- 3. Find all day pass purchases
 -- TODO: Write a query to find all day pass purchases
@@ -48,5 +46,5 @@ SELECT
     payment_date,
     payment_method
 FROM payments
-WHERE payment_type = 'day_pass'
+WHERE payment_type = 'Day pass'
 ORDER BY payment_date DESC;

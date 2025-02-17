@@ -1,5 +1,5 @@
 -- Initial SQLite setup
-.open fittrackpro.db
+.open fittrackpro.sqlite
 .mode column
 
 -- Enable foreign key support
@@ -13,13 +13,12 @@ SELECT
     m.member_id,
     m.first_name,
     m.last_name,
-    ms.membership_type,
-    ms.start_date
+    ms.type,
+    m.join_date
 FROM members m
-JOIN memberships ms ON m.member_id = ms.member_id
+LEFT JOIN memberships ms ON m.member_id = ms.member_id
 WHERE 
-    ms.status = 'active'
-    AND ms.end_date >= DATE('now')
+    ms.status = 'Active'
 ORDER BY ms.start_date DESC;
 
 
@@ -27,33 +26,21 @@ ORDER BY ms.start_date DESC;
 -- TODO: Write a query to calculate the average duration of gym visits for each membership type
 -- 5.2 Calculate average duration of gym visits for each membership type
 SELECT 
-    ms.membership_type,
+    ms.type AS membership_type,
     ROUND(AVG(
         (JULIANDAY(a.check_out_time) - JULIANDAY(a.check_in_time)) * 24 * 60
     ), 2) as avg_visit_duration_minutes
 FROM memberships ms
 JOIN attendance a ON ms.member_id = a.member_id
-WHERE 
-    a.check_out_time IS NOT NULL
-    AND ms.status = 'active'
-GROUP BY ms.membership_type
-ORDER BY avg_visit_duration_minutes DESC;
+GROUP BY ms.type;
 
 
 -- 3. Identify members with expiring memberships this year
 -- TODO: Write a query to identify members with expiring memberships this year
 -- 5.3 Identify members with expiring memberships this year
-SELECT 
-    m.member_id,
-    m.first_name,
-    m.last_name,
-    m.email,
-    ms.end_date
+
+SELECT m.member_id, m.first_name, m.last_name, m.email, me.end_date
 FROM members m
-JOIN memberships ms ON m.member_id = ms.member_id
-WHERE 
-    ms.status = 'active'
-    AND ms.end_date BETWEEN DATE('now') 
-    AND DATE('now', 'start of year', '+1 year', '-1 day')
-ORDER BY ms.end_date;
+LEFT JOIN memberships me ON me.member_id = m.member_id
+WHERE strftime('%Y', me.end_date) = strftime('%Y', 'now');
 

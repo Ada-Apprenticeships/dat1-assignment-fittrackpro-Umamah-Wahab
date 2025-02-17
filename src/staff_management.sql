@@ -1,5 +1,5 @@
 -- Initial SQLite setup
-.open fittrackpro.db
+.open fittrackpro.sqlite
 .mode column
 
 -- Enable foreign key support
@@ -11,11 +11,10 @@ PRAGMA foreign_keys = ON;
 -- 7.1 List all staff members by role
 SELECT 
     staff_id,
-    first_name,
+    first_name ,
     last_name,
-    role
-FROM staff
-ORDER BY role, last_name, first_name;
+    position AS role
+FROM staff;
 
 
 -- 2. Find trainers with one or more personal training session in the next 30 days
@@ -26,12 +25,9 @@ SELECT
     s.first_name || ' ' || s.last_name as trainer_name,
     COUNT(pts.session_id) as session_count
 FROM staff s
-JOIN personal_training_sessions pts ON s.staff_id = pts.trainer_id
+JOIN personal_training_sessions pts ON s.staff_id = pts.staff_id
 WHERE 
-    s.role = 'trainer'
+    s.position = 'Trainer'
     AND pts.session_date BETWEEN DATE('now') AND DATE('now', '+30 days')
-    AND pts.status = 'scheduled'
-GROUP BY s.staff_id
-HAVING session_count > 0
-ORDER BY session_count DESC;
+GROUP BY trainer_id;
 
