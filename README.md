@@ -76,7 +76,7 @@ Create the following tables in your database. We have provided a file `schema.sq
 | last_name    |
 | email        |
 | phone_number |
-| position     | Trainer, Manager, Receptionist |
+| position     | Trainer, Manager, Receptionist, Maintenance |
 | hire_date    |
 | location_id  |
 
@@ -123,7 +123,7 @@ Create the following tables in your database. We have provided a file `schema.sq
 | ------------- | ---- |
 | membership_id |
 | member_id     |
-| type          |
+| type          | Premium, Basic
 | start_date    |
 | end_date      |
 | status        | Active, Inactive |
@@ -159,7 +159,7 @@ Create the following tables in your database. We have provided a file `schema.sq
 | amount         |
 | payment_date   |
 | payment_method | Credit Card, Bank Transfer, PayPal |
-| payment_type   | Monthly membership fee, Day pass |
+| payment_type   | Monthly membership fee, Day pass, |
 
 
 #### `personal_training_sessions` table
