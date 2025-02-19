@@ -1,8 +1,8 @@
 -- Sample data for locations
 INSERT INTO locations (name, address, phone_number, email, opening_hours)
 VALUES 
-('Downtown Fitness', '123 Main St, Cityville', '555-1234', 'downtown@fittrackpro.com', '6:00-22:00'),
-('Suburb Gym', '456 Oak Rd, Townsburg', '555-5678', 'suburb@fittrackpro.com', '5:00-23:00');
+('Downtown Fitness', '123 Main St, Cityville', '555-1234', 'downtown@fittrackpro.com', '06:00-22:00'),
+('Suburb Gym', '456 Oak Rd, Townsburg', '555-5678', 'suburb@fittrackpro.com', '05:00-23:00');
 
 -- Sample data for members
 INSERT INTO members (first_name, last_name, email, phone_number, date_of_birth, join_date, emergency_contact_name, emergency_contact_phone)

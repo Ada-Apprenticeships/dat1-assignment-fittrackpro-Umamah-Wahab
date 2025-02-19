@@ -1,7 +1,7 @@
 -- Initial SQLite setup
 .open fittrackpro.sqlite
 .mode column
-
+.mode box
 -- Enable foreign key support
 PRAGMA foreign_keys = ON;
 -- Payment Management Queries
